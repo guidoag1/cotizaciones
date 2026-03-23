@@ -1,0 +1,40 @@
+/* TABS */
+.tabs { display: flex; background: #f0f2f5; border-radius: 15px; padding: 5px; margin-bottom: 20px; }
+.tab-btn { flex: 1; padding: 12px; border: none; background: none; border-radius: 10px; cursor: pointer; font-size: 16px; transition: all 0.3s; }
+.tab-btn.active { background: #667eea; color: white; }
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+.btn-small { padding: 8px 16px !important; font-size: 14px !important; margin-left: 10px; }
+
+.catalogo-controls { display: flex; gap: 10px; margin-bottom: 20px; }
+#buscarArticulo { flex: 1; }
+
+.articulos-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+    gap: 15px; 
+}
+
+.articulo-card { 
+    background: white; 
+    border: 2px solid #e1e5e9; 
+    border-radius: 12px; 
+    padding: 20px; 
+    cursor: pointer; 
+    transition: all 0.3s; 
+}
+.articulo-card:hover { border-color: #667eea; transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+.articulo-card.seleccionado { border-color: #2ed573; background: #e8f5e8; }
+.articulo-titulo { font-size: 18px; font-weight: bold; color: #333; margin-bottom: 5px; }
+.articulo-precio { font-size: 24px; color: #2ed573; font-weight: bold; }
+.articulo-codigo { font-size: 12px; color: #666; margin-top: 5px; }
+.btn-agregar-cotizacion { margin-top: 10px; background: #2ed573; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
+
+/* MODAL */
+.modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000; }
+.modal-content { background: white; padding: 30px; border-radius: 15px; width: 90%; max-width: 400px; }
+.modal-buttons { display: flex; gap: 10px; justify-content: flex-end; margin-top: 20px; }
+.hidden { display: none !important; }
+
+#descuento { color: #ff4757; }
