@@ -321,4 +321,66 @@ function generarPDF() {
         printWindow.print();
         printWindow.close();
     };
+    // 🔥 SYNCRONIZACIÓN GOOGLE SHEETS
+async function cargarHistorial() {
+    try {
+        const response = await fetch(GOOGLE_SHEETS_URL);
+        historial = await response.json();
+        localStorage.setItem('historialCotizaciones', JSON.stringify(historial));
+    } catch(e) {
+        historial = JSON.parse(localStorage.getItem('historialCotizaciones')) || [];
+    }
+    mostrarHistorial();
+}
+
+async function guardarCotizacion() {
+    const cotizacion = {
+        id: Date.now(),
+        numero: document.getElementById('numeroCot').value,
+        cliente: document.getElementById('cliente').value,
+        email: document.getElementById('email').value,
+        fecha: document.getElementById('fecha').value,
+        items: [],
+        subtotal: document.getElementById('subtotal').textContent.replace('$', ''),
+        iva: document.getElementById('iva').textContent.replace('$', ''),
+        total: document.getElementById('total').textContent.replace('$', '')
+    };
+    
+    document.querySelectorAll('.item-row').forEach(row => {
+        const desc = row.querySelector('.desc').value;
+        if (desc.trim()) {
+            cotizacion.items.push({
+                desc, cant: row.querySelector('.cant').value,
+                precio: row.querySelector('.precio').value,
+                total: row.querySelector('.total').textContent
+            });
+        }
+    });
+    
+    // 🔥 GUARDAR EN GOOGLE SHEETS
+    await fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        body: JSON.stringify({action: 'save', cotizacion})
+    });
+    
+    historial.unshift(cotizacion);
+    localStorage.setItem('historialCotizaciones', JSON.stringify(historial));
+    cargarHistorial();
+    alert(`✅ Guardada en Google Sheets!`);
+}
+
+async function eliminarCotizacion(index) {
+    if (confirm('¿Eliminar de Google Sheets?')) {
+        await fetch(GOOGLE_SHEETS_URL, {
+            method: 'POST',
+            body: JSON.stringify({action: 'delete', id: historial[index].id})
+        });
+        historial.splice(index, 1);
+        localStorage.setItem('historialCotizaciones', JSON.stringify(historial));
+        cargarHistorial();
+    }
+}
+
+// Auto-sync cada 30s
+setInterval(cargarHistorial, 30000);
 }
