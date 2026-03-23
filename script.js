@@ -1,6 +1,7 @@
 let itemCount = 1;
 let catalogo = JSON.parse(localStorage.getItem('catalogo')) || [];
 let tabActiva = 'cotizacion';
+const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbwTqwqSOt9pf1F46dTfitYS49bfUGvbWKLbbos0eM_sjy16f17xkcL1O2pRVW75RbCP/exec';
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('fecha').valueAsDate = new Date();
